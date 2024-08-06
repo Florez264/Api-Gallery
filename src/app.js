@@ -13,7 +13,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/uploads', express.static(path.resolve(__dirname, '../uploads')));
-console.log("RUTA DESDE MI API ",path.join(__dirname, '..', 'uploads'));
 
 
 

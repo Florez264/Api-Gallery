@@ -25,7 +25,12 @@ exports.uploadPhoto = async (req, res) => {
 exports.getAllPhotos = async (req, res) => {
   try {
     const photos = await Photo.find();
-    res.json(photos);
+    // Asegúrate de que las URLs de las imágenes sean correctas
+    const photosWithUrls = photos.map(photo => ({
+      ...photo._doc,
+      url: `${req.protocol}://${req.get('host')}/uploads/${photo.filename}`
+    }));
+    res.json(photosWithUrls);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener las fotos', error: error.message });
   }
@@ -45,7 +50,12 @@ exports.getPhotosByLocation = async (req, res) => {
         }
       }
     });
-    res.json(photos);
+    // Asegúrate de que las URLs de las imágenes sean correctas
+    const photosWithUrls = photos.map(photo => ({
+      ...photo._doc,
+      url: `${req.protocol}://${req.get('host')}/uploads/${photo.filename}`
+    }));
+    res.json(photosWithUrls);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener las fotos por ubicación', error: error.message });
   }
